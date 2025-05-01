@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "CommonJS",
+    "target": "ES6",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["node", "express", "cors", "helmet", "morgan"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
