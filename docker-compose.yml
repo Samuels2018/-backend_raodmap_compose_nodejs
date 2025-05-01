@@ -1,0 +1,57 @@
+version: "3.9"
+services:
+  dbPostgres:
+    image: postgres:latest
+    container_name: dbPostgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  weather-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: weather-api
+    environment:
+      - DB_HOST=dbPostgres
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    ports:
+      - "5000:5000"
+    depends_on:
+      - dbPostgres
+  todo-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todo-api
+    environment:
+      - DB_HOST=dbPostgres
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    ports:
+      - "5001:5000"
+    depends_on:
+      - dbPostgres
+
+networks:
+  default:
+    driver: bridge
+volumes:
+  db_data:
+    driver: local
+  
