@@ -64,6 +64,22 @@ services:
     depends_on:
       - dbPostgres
 
+  markdown-notes:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: markdown-notes
+    environment:
+      - DB_HOST=dbPostgres
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    ports:
+      - "5003:5000"
+    depends_on:
+      - dbPostgres
+
 networks:
   default:
     driver: bridge

@@ -41,9 +41,11 @@ class AuthService {
   }
 
   private generateToken(userId: number): string {
-    return jwt.sign({ id: userId }, config.jwt.secret, {
-      expiresIn: config.jwt.expiresIn,
-    });
+    const payload = { id: userId };
+    const secret = config.jwt.secret as string; // Asegúrate de que sea una cadena
+    const options: jwt.SignOptions = {expiresIn: parseInt(config.jwt.expiresIn, 10) };
+
+    return jwt.sign(payload, secret, options);
   }
 }
 

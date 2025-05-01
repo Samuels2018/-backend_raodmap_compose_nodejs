@@ -4,8 +4,25 @@ import { sequelize } from './src/models/index';
 
 const PORT = config.port;
 
+const startServer = async () => {
+  
+  app.listen(PORT, (err) => {
+    if (err) {
+      console.error('Error starting server:', err);
+      return;
+    }
+
+    console.log(`Server running on port ${PORT}`);
+  });
+};
+
+startServer().catch(err => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
+});
+
 // Test database connection and sync models
-sequelize
+/*sequelize
   .authenticate()
   .then(() => {
     console.log('Database connected successfully');
@@ -20,3 +37,4 @@ sequelize
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
+*/

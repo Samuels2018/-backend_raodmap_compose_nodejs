@@ -1,0 +1,29 @@
+{
+  "name": "markdown-notes",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "fs-extra": "^11.3.0",
+    "grammar-checker": "^0.0.1",
+    "helmet": "^8.1.0",
+    "marked": "^15.0.11",
+    "mongoose": "^8.14.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.2",
+    "showdown": "^2.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

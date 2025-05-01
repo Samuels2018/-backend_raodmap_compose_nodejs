@@ -17,7 +17,9 @@ class Todo extends Model {
   })
   title!: string;
 
-  @Column
+  @Column({
+    allowNull: false,
+  })
   description?: string;
 
   @ForeignKey(() => User)

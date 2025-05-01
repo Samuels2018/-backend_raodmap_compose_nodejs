@@ -35,10 +35,10 @@ class User extends Model {
   @HasMany(() => Todo)
   todos!: Todo[];
 
-  @BeforeCreate
-  static async hashPassword(user: User) {
+  /*@BeforeCreate
+  static async hashPassword(user: User): Promise<void> {
     user.password = await hashPassword(user.password);
-  }
+  }*/
 }
 
 export default User;

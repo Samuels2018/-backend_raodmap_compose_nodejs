@@ -17,7 +17,8 @@ class TodoService {
   }
 
   async getAllTodos(userId: number, query: any) {
-    const features = new APIFeatures(Todo, query, { userId })
+    // userId
+    const features = new APIFeatures(Todo, query, {  })
       .filter()
       .sort()
       .limitFields()
