@@ -8,5 +8,5 @@
     "types": ["node", "express", "cors", "helmet", "morgan"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules",  "**/*.test.ts"]
 }

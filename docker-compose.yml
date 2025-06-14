@@ -17,73 +17,98 @@ services:
       timeout: 5s
       retries: 5
 
+  dbMongo:
+    image: mongo:latest
+    container_name: dbMongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - db_mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  dbRedis:
+    image: redis:latest
+    container_name: dbRedis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   weather-api:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: weather-api
-    environment:
-      - DB_HOST=dbPostgres
-      - DB_PORT=5432
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
+    volumes:
+      - ./weather-api:/app
     ports:
       - "5000:5000"
     depends_on:
-      - dbPostgres
+      dbRedis:
+        condition: service_healthy
+    networks:
+      - default
+
   todo-api:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: todo-api
-    environment:
-      - DB_HOST=dbPostgres
-      - DB_PORT=5432
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
+    volumes:
+      - ./todo-api:/app
     ports:
       - "5001:5000"
     depends_on:
-      - dbPostgres
+      dbPostgres:
+        condition: service_healthy
+    networks:
+      - default
 
   url-shortener:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: url-shortener
-    environment:
-      - DB_HOST=dbPostgres
-      - DB_PORT=5432
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
+    volumes:
+      - ./url-shortener:/app
     ports:
       - "5002:5000"
     depends_on:
-      - dbPostgres
+      dbMongo:
+        condition: service_healthy
+    networks:
+      - default
 
   markdown-notes:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: markdown-notes
-    environment:
-      - DB_HOST=dbPostgres
-      - DB_PORT=5432
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
+    volumes:
+      - ./markdown-notes:/app
     ports:
       - "5003:5000"
     depends_on:
-      - dbPostgres
+      dbMongo:
+        condition: service_healthy
+    networks:
+      - default
 
 networks:
   default:
     driver: bridge
 volumes:
   db_data:
+    driver: local
+  db_mongo_data:
     driver: local
   

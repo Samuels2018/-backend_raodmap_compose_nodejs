@@ -18,18 +18,23 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
       token = req.headers.authorization.split(' ')[1];
     }
 
+
     if (!token) {
       return next(new AppError('You are not logged in! Please log in to get access.', 401));
     }
 
     // 2) Verify token
     const decoded = jwt.verify(token, config.jwt.secret) as DecodedToken;
+    console.log('Decoded token:', decoded);
+    if (!decoded) {
+      return next(new AppError('Invalid token', 401));
+    }
 
     // 3) Check if user still exists (optional)
     // You can add this if you want to check if user still exists in DB
 
     // Add user ID to request object
-    req.user = { id: decoded.id };
+    req.body = { id: decoded.id };
 
     next();
   } catch (err) {

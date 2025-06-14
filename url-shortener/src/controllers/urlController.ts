@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { UrlService } from '../services/urlService';
 
-export class UrlController {
-  static async createShortUrl(req: Request, res: Response) {
+class UrlController {
+  static async createShortUrl(req: Request, res: Response): Promise<void> {
     try {
       const { url } = req.body;
       if (!url) {
-        return res.status(400).json({ error: 'URL is required' });
+        res.status(400).json({ error: 'URL is required' });
       }
 
       const shortUrl = await UrlService.createShortUrl(url);
@@ -22,13 +22,13 @@ export class UrlController {
     }
   }
 
-  static async getOriginalUrl(req: Request, res: Response) {
+  static async getOriginalUrl(req: Request, res: Response): Promise<void> {
     try {
       const { shortCode } = req.params;
       const url = await UrlService.getOriginalUrl(shortCode);
 
       if (!url) {
-        return res.status(404).json({ error: 'URL not found' });
+        res.status(404).json({ error: 'URL not found' });
       }
 
       res.status(200).json({
@@ -43,19 +43,19 @@ export class UrlController {
     }
   }
 
-  static async updateUrl(req: Request, res: Response) {
+  static async updateUrl(req: Request, res: Response): Promise<void> {
     try {
       const { shortCode } = req.params;
       const { url: newUrl } = req.body;
 
       if (!newUrl) {
-        return res.status(400).json({ error: 'URL is required' });
+        res.status(400).json({ error: 'URL is required' });
       }
 
       const updatedUrl = await UrlService.updateUrl(shortCode, newUrl);
 
       if (!updatedUrl) {
-        return res.status(404).json({ error: 'URL not found' });
+        res.status(404).json({ error: 'URL not found' });
       }
 
       res.status(200).json({
@@ -70,13 +70,13 @@ export class UrlController {
     }
   }
 
-  static async deleteUrl(req: Request, res: Response) {
+  static async deleteUrl(req: Request, res: Response): Promise<void> {
     try {
       const { shortCode } = req.params;
       const url = await UrlService.getOriginalUrl(shortCode);
 
       if (!url) {
-        return res.status(404).json({ error: 'URL not found' });
+        res.status(404).json({ error: 'URL not found' });
       }
 
       await UrlService.deleteUrl(shortCode);
@@ -86,3 +86,5 @@ export class UrlController {
     }
   }
 }
+
+export default UrlController;

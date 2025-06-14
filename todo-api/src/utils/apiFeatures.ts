@@ -1,5 +1,4 @@
 import { FindOptions, WhereOptions } from 'sequelize';
-import Todo from '../models/todoModel';
 
 interface QueryParams {
   page?: string;
@@ -34,9 +33,9 @@ class APIFeatures<T> {
     if (this.queryParams.sort) {
       const sortBy = this.queryParams.sort.split(',').map((field) => {
         if (field.startsWith('-')) {
-          return [field.slice(1), 'DESC'];
+          return [field.slice(1), 'DESC'] as [string, 'DESC'];
         }
-        return [field, 'ASC'];
+        return [field, 'ASC'] as [string, 'ASC'];
       });
       this.options.order = sortBy;
     } else {

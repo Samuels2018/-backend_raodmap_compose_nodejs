@@ -1,14 +1,19 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import { StatsService } from '../services/statsService';
 
-export class StatsController {
-  static async getUrlStats(req: Request, res: Response) {
+class StatsController {
+  static async getUrlStats(req: Request, res: Response): Promise<void> {
     try {
       const { shortCode } = req.params;
+
+      if (!shortCode || shortCode.trim() === '') {
+        res.status(400).json({ error: 'shortCode parameter is required' });
+      }
+
       const url = await StatsService.getUrlStats(shortCode);
 
       if (!url) {
-        return res.status(404).json({ error: 'URL not found' });
+        res.status(404).json({ error: 'URL not found' });
       }
 
       res.status(200).json({
@@ -24,3 +29,5 @@ export class StatsController {
     }
   }
 }
+
+export default StatsController;

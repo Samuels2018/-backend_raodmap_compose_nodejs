@@ -22,6 +22,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 };
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('Login request received:', req.body);
   try {
     const { email, password } = req.body;
 
@@ -30,6 +31,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     }
 
     const { token } = await AuthService.login(email, password);
+
+    console.log('Token generated:', token);
 
     res.status(200).json({
       status: 'success',

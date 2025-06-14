@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import urlRoutes from './routes/urlRoutes';
+import IndexUrl from './routes/index';
+import Urls from './routes/urlRoutes';
 import { errorHandler, notFoundHandler } from './utils/errorHandler';
 
 const app = express();
@@ -14,7 +15,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // Routes
-app.use('/api', urlRoutes);
+app.use('/api', Urls);
 
 // Error handling
 app.use(notFoundHandler);

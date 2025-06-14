@@ -24,6 +24,8 @@ export const getAllTodos = async (req: Request, res: Response, next: NextFunctio
 };
 
 export const getTodo = async (req: Request, res: Response, next: NextFunction) => {
+
+  console.log('Request body:', req.body);
   const {user} = req.body;
   const {id} = user;
 

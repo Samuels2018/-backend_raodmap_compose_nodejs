@@ -5,7 +5,7 @@ const notesController = require('../controllers/notesController')
 const uploadController = require('../controllers/uploadController')
 
 // File upload route
-router.post('/upload', upload.single('markdownFile'), uploadController.uploadMarkdown)
+router.post('/upload', upload.single('markdownFile'), uploadController.uploadController)
 
 // Note management routes
 router.post('/notes', notesController.saveNote)
